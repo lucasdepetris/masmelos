@@ -5,9 +5,23 @@ import Colors from '../constants/Colors';
 
 
 class Home extends Component{
-  state = {
-    categorias:[{'Cat':'Categoria 1'},{'Cat':'Categoria 2'}],
-    showModal:false
+  constructor() {
+    super();
+    this.state = {
+      categorias:[{'Cat':'Categoria 1'},{'Cat':'Categoria 2'}],
+      showModal:false,
+      newCat:''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange(event) {
+    var target = event.target;
+    var name = target["name"];
+    console.log(name);
+    this.setState({
+      [name]: target.value
+    });
   }
 
   addCategory = () =>{
@@ -15,8 +29,8 @@ class Home extends Component{
   }
 
   handleAddCategory = () => {
-    const val = {'Cat':'Categoria 3'}
-    this.setState({categorias:[...this.state.categorias,val],showModal:false})
+    const val = {'Cat':this.state.newCat}
+    this.setState({categorias:[...this.state.categorias,val],showModal:false,newCat:''})
   }
 
   removeCategory = (cat) =>{
@@ -88,7 +102,7 @@ class Home extends Component{
               <button class="delete" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
-              <input class="input" type="text" placeholder="Text input"/>
+              <input onChange={this.handleChange} name="newCat" value={this.state.newCat} class="input" type="text" placeholder="Text input"/>
             </section>
             <footer class="modal-card-foot">
               <button class="button is-success" onClick={() => {this.handleAddCategory()}}>Añadir</button>
